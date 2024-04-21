@@ -12,6 +12,7 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }
@@ -30,13 +31,33 @@ public class ItemService {
         Optional<Item> optionalItem = itemRepository.findById(id);
         if (optionalItem.isPresent()) {
             Item existingItem = optionalItem.get();
-            // Validate and update fields
-            updateItemFields(existingItem, newItem);
+            // Update fields of existing item with values from new item
+            existingItem.setItemName(newItem.getItemName());
+            existingItem.setEmployeeId(newItem.getEmployeeId());
+            existingItem.setIndentor(newItem.getIndentor());
+            existingItem.setTotalQty(newItem.getTotalQty());
+            existingItem.setTenderNo(newItem.getTenderNo());
+            existingItem.setPurchaseOrderDate(newItem.getPurchaseOrderDate());
+            existingItem.setPurchaseOrderNo(newItem.getPurchaseOrderNo());
+            existingItem.setDateOfDeliveryISTRAC(newItem.getDateOfDeliveryISTRAC());
+            existingItem.setQuantityISTRAC(newItem.getQuantityISTRAC());
+            existingItem.setInstallationDateISTRAC(newItem.getInstallationDateISTRAC());
+            existingItem.setDateOfDeliveryNPL(newItem.getDateOfDeliveryNPL());
+            existingItem.setQuantityNPL(newItem.getQuantityNPL());
+            existingItem.setInstallationDateNPL(newItem.getInstallationDateNPL());
+            existingItem.setWhiteSlipDate(newItem.getWhiteSlipDate());
+            existingItem.setWhiteSlipNo(newItem.getWhiteSlipNo());
+            existingItem.setWhiteSlipGivenBy(newItem.getWhiteSlipGivenBy());
+            existingItem.setRemarks(newItem.getRemarks());
+            existingItem.setCategory(newItem.getCategory());
+            // Update other fields as needed
+
             return itemRepository.save(existingItem);
         } else {
             throw new IllegalArgumentException("Item not found with id: " + id);
         }
     }
+
 
     public void deleteItem(Long id) {
         // Check if item exists before deleting
